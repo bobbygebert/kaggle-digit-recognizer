@@ -1,0 +1,27 @@
+[project]
+name = "kaggle-digit-recognizer"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Bobby Gebert", email = "bobgebert7@gmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.mypy]
+strict = true
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["uv_build>=0.9.5,<0.10.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "black>=25.9.0",
+    "isort>=7.0.0",
+    "mypy>=1.18.2",
+]
