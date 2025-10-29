@@ -21,7 +21,16 @@ def train(args: argparse.Namespace) -> None:
     )
 
     model = DigitRecognizer()
+    param_count = sum(p.numel() for p in model.parameters())
+    print(f"Parameters: {param_count:,}")
+
     kaggle_digit_recognizer.train.train(model, training_dataset, args.batch_size)
+
+    training_accuracy = kaggle_digit_recognizer.evaluate.evaluate(
+        model, training_dataset, args.batch_size
+    )
+    print(f"Training accuracy: {training_accuracy:.4f}")
+
     model.save(Path(args.model_path))
 
     if len(validation_dataset) > 0:
