@@ -32,5 +32,7 @@ class DigitRecognizer(nn.Module):
     @classmethod
     def load(cls, path: Path) -> "DigitRecognizer":
         model = cls()
-        model.load_state_dict(torch.load(path, weights_only=True))
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        model.load_state_dict(torch.load(path, map_location=device, weights_only=True))
+        model.eval()
         return model
