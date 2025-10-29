@@ -12,7 +12,9 @@ def evaluate(
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
 
-    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
+    dataloader = DataLoader(
+        dataset, batch_size=batch_size, shuffle=False, num_workers=4
+    )
 
     model.eval()
     correct = 0
