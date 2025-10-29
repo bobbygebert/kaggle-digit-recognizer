@@ -14,3 +14,7 @@ models/
 .ipynb_checkpoints/
 .jupyter_ystore.db
 
+# Python
+__pycache__/
+*.pyc
+
