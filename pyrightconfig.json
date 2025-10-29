@@ -2,6 +2,7 @@
   "venvPath": "./",
   "venv": ".venv",
   "typeCheckingMode": "strict",
-  "reportUnknownMemberType": "none"
-
+  "reportMissingTypeStubs": "none",
+  "reportUnknownMemberType": "none",
+  "reportUnknownVariableType": "none"
 }
