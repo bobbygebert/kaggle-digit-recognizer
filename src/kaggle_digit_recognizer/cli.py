@@ -59,7 +59,7 @@ def main() -> None:
 
     train_parser = subparsers.add_parser("train", help="Train the model")
     train_parser.add_argument("--data-path", type=str, required=True)
-    train_parser.add_argument("--batch-size", type=int, default=32)
+    train_parser.add_argument("--batch-size", type=int, default=64)
     train_parser.add_argument("--epochs", type=int, default=10)
     train_parser.add_argument("--model-path", type=str, required=True)
     train_parser.add_argument("--validation-split", type=float, default=0.2)
@@ -68,7 +68,7 @@ def main() -> None:
     evaluate_parser = subparsers.add_parser("evaluate", help="Evaluate the model")
     evaluate_parser.add_argument("--model-path", type=str, required=True)
     evaluate_parser.add_argument("--data-path", type=str, required=True)
-    evaluate_parser.add_argument("--batch-size", type=int, default=32)
+    evaluate_parser.add_argument("--batch-size", type=int, default=64)
     evaluate_parser.set_defaults(func=evaluate)
 
     args = parser.parse_args()
