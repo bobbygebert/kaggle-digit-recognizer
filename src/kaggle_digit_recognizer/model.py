@@ -32,5 +32,5 @@ class DigitRecognizer(nn.Module):
     @classmethod
     def load(cls, path: Path) -> "DigitRecognizer":
         model = cls()
-        model.load_state_dict(torch.load(path))
+        model.load_state_dict(torch.load(path, weights_only=True))
         return model
