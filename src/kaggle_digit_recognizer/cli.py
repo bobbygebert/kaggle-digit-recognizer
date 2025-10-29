@@ -24,7 +24,9 @@ def train(args: argparse.Namespace) -> None:
     param_count = sum(p.numel() for p in model.parameters())
     print(f"Parameters: {param_count:,}")
 
-    kaggle_digit_recognizer.train.train(model, training_dataset, args.batch_size)
+    kaggle_digit_recognizer.train.train(
+        model, training_dataset, args.batch_size, args.epochs
+    )
 
     training_accuracy = kaggle_digit_recognizer.evaluate.evaluate(
         model, training_dataset, args.batch_size
@@ -58,6 +60,7 @@ def main() -> None:
     train_parser = subparsers.add_parser("train", help="Train the model")
     train_parser.add_argument("--data-path", type=str, required=True)
     train_parser.add_argument("--batch-size", type=int, default=32)
+    train_parser.add_argument("--epochs", type=int, default=10)
     train_parser.add_argument("--model-path", type=str, required=True)
     train_parser.add_argument("--validation-split", type=float, default=0.2)
     train_parser.set_defaults(func=train)
