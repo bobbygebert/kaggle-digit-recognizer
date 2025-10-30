@@ -23,6 +23,7 @@ class DigitRecognizer(nn.Module):
             nn.BatchNorm2d(64),
             nn.ReLU(),
             nn.Flatten(),
+            nn.Dropout(0.5),
             nn.Linear(64 * 7 * 7, 10),
         )
 
