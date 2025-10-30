@@ -9,7 +9,10 @@ import kaggle_digit_recognizer.evaluate
 import kaggle_digit_recognizer.train
 from kaggle_digit_recognizer.dataset import DigitDataset, RawDigitDataset
 from kaggle_digit_recognizer.model import DigitRecognizer
-from kaggle_digit_recognizer.transforms import get_transform
+from kaggle_digit_recognizer.transforms import (
+    get_training_transform,
+    get_validation_transform,
+)
 
 
 def train(args: argparse.Namespace) -> None:
@@ -21,8 +24,10 @@ def train(args: argparse.Namespace) -> None:
         raw_dataset, [training_size, validation_size]
     )
 
-    training_dataset = DigitDataset(training_subset, transform=get_transform())
-    validation_dataset = DigitDataset(validation_subset, transform=get_transform())
+    training_dataset = DigitDataset(training_subset, transform=get_training_transform())
+    validation_dataset = DigitDataset(
+        validation_subset, transform=get_validation_transform()
+    )
 
     model = DigitRecognizer()
     param_count = sum(p.numel() for p in model.parameters())
@@ -49,7 +54,7 @@ def train(args: argparse.Namespace) -> None:
 def evaluate(args: argparse.Namespace) -> None:
     model = DigitRecognizer.load(Path(args.model_path))
     raw_dataset = RawDigitDataset(Path(args.data_path))
-    dataset = DigitDataset(raw_dataset, transform=get_transform())
+    dataset = DigitDataset(raw_dataset, transform=get_validation_transform())
     accuracy = kaggle_digit_recognizer.evaluate.evaluate(
         model, dataset, args.batch_size
     )
