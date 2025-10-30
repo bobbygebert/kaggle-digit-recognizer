@@ -7,19 +7,22 @@ from torch.utils.data import random_split
 
 import kaggle_digit_recognizer.evaluate
 import kaggle_digit_recognizer.train
-from kaggle_digit_recognizer.dataset import DigitDataset
+from kaggle_digit_recognizer.dataset import DigitDataset, RawDigitDataset
 from kaggle_digit_recognizer.model import DigitRecognizer
 from kaggle_digit_recognizer.transforms import get_transform
 
 
 def train(args: argparse.Namespace) -> None:
-    dataset = DigitDataset(Path(args.data_path), transform=get_transform())
+    raw_dataset = RawDigitDataset(Path(args.data_path))
 
-    training_size = int((1 - args.validation_split) * len(dataset))
-    validation_size = len(dataset) - training_size
-    training_dataset, validation_dataset = random_split(
-        dataset, [training_size, validation_size]
+    training_size = int((1 - args.validation_split) * len(raw_dataset))
+    validation_size = len(raw_dataset) - training_size
+    training_subset, validation_subset = random_split(
+        raw_dataset, [training_size, validation_size]
     )
+
+    training_dataset = DigitDataset(training_subset, transform=get_transform())
+    validation_dataset = DigitDataset(validation_subset, transform=get_transform())
 
     model = DigitRecognizer()
     param_count = sum(p.numel() for p in model.parameters())
@@ -45,7 +48,8 @@ def train(args: argparse.Namespace) -> None:
 
 def evaluate(args: argparse.Namespace) -> None:
     model = DigitRecognizer.load(Path(args.model_path))
-    dataset = DigitDataset(Path(args.data_path), transform=get_transform())
+    raw_dataset = RawDigitDataset(Path(args.data_path))
+    dataset = DigitDataset(raw_dataset, transform=get_transform())
     accuracy = kaggle_digit_recognizer.evaluate.evaluate(
         model, dataset, args.batch_size
     )
