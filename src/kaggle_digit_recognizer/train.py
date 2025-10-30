@@ -16,6 +16,7 @@ def train(
 
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=4)
     optimizer = torch.optim.Adam(model.parameters())
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs)
     criterion = nn.CrossEntropyLoss()
 
     for epoch in range(epochs):
@@ -32,3 +33,4 @@ def train(
 
         avg_loss = total_loss / len(dataloader)
         print(f"Epoch {epoch + 1}/{epochs}, Loss: {avg_loss:.4f}")
+        scheduler.step()
